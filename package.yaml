@@ -1,0 +1,48 @@
+name:                lmdb-conduit
+version:             0.1.0.0
+github:              "shlok/lmdb-conduit"
+license:             BSD3
+author:              "Shlok Datye"
+maintainer:          "shlok@quant.is"
+copyright:           "2019 Shlok Datye"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+synopsis:            Stream data to or from an LMDB database.
+category:            Data, Database, LMDB, Conduit
+
+description:         Please see the README on GitHub at <https://github.com/shlok/lmdb-conduit#readme>
+
+ghc-options:
+- -Wall
+
+dependencies:
+- async
+- base >= 4.7 && < 5
+- bytestring
+- conduit
+- lmdb
+- mtl
+- resourcet
+
+library:
+  source-dirs: src
+
+tests:
+  lmdb-conduit-test:
+    main:            TestSuite.hs
+    source-dirs:     test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - containers
+    - directory
+    - QuickCheck
+    - lmdb-conduit
+    - tasty
+    - tasty-quickcheck
+    - temporary
