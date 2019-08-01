@@ -8,11 +8,10 @@ import Conduit ((.|), runConduitRes, sinkList, takeC, yieldMany)
 import Control.Concurrent.Async (asyncBound, wait)
 import Control.Monad (forM_)
 import Data.ByteString (ByteString, pack)
-import Data.List (sort)
-import qualified Data.Map.Strict as M (fromList, toList)
+import Data.List (foldl', sort)
 import Database.LMDB.Conduit (sinkLMDB, sourceLMDB)
-import Database.LMDB.Conduit.Internal (marshalOut, noWriteFlags)
 import Database.LMDB.Raw (MDB_dbi', MDB_env, mdb_clear', mdb_put', mdb_txn_begin, mdb_txn_commit)
+import Database.LMDB.Resource.Utility (marshalOut, noWriteFlags)
 import Test.QuickCheck.Monadic (PropertyM, monadicIO, pick, run)
 import Test.Tasty (TestTree)
 import Test.Tasty.QuickCheck (arbitrary, testProperty)
@@ -64,7 +63,7 @@ arbitraryKeyValuePairs =
    <$> pick arbitrary
 
 -- | Note that this function retains the last value for each key.
-removeDuplicateKeys :: (Ord a) => [(a, b)] -> [(a, b)]
-removeDuplicateKeys = M.toList . M.fromList
+removeDuplicateKeys :: (Eq a) => [(a, b)] -> [(a, b)]
+removeDuplicateKeys = foldl' (\acc (a, b) -> if any ((== a) . fst) acc then acc else (a, b) : acc) [] . reverse
 
 --------------------------------------------------------------------------------

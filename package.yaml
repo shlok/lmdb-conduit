@@ -11,38 +11,37 @@ extra-source-files:
 - ChangeLog.md
 
 synopsis:            Stream data to or from an LMDB database.
-category:            Data, Database, LMDB, Conduit
+category:            Data, Database, Conduit
 
 description:         Please see the README on GitHub at <https://github.com/shlok/lmdb-conduit#readme>
 
-ghc-options:
-- -Wall
-
 dependencies:
-- async
 - base >= 4.7 && < 5
 - bytestring
 - conduit
 - lmdb
-- mtl
+- lmdb-resource
 - resourcet
+
+ghc-options:
+- -Wall
 
 library:
   source-dirs: src
 
 tests:
   lmdb-conduit-test:
-    main:            TestSuite.hs
-    source-dirs:     test
+    main:                TestSuite.hs
+    source-dirs:         test
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - containers
+    - async
     - directory
-    - QuickCheck
     - lmdb-conduit
+    - QuickCheck
     - tasty
     - tasty-quickcheck
     - temporary
