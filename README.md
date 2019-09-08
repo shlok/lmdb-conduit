@@ -51,6 +51,7 @@ sourceLMDB :: (MonadResource m)
 sinkLMDB :: (MonadResource m)
          => MDB_env
          -> MDB_dbi'
+         -> Bool     -- If True, an exception will be thrown when attempting to re-insert a key.
          -> ConduitT (ByteString, ByteString) o m ()
 ```
 
